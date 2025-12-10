@@ -4,6 +4,11 @@ import { useState } from 'react';
 let turn = 0;
 
 function App() {
+  
+  const cellColorYellow = '#fffb00ff';
+  const cellColorRed = '#e70303ff';
+  const cellColorEmpty = '#fdfdfdfd';
+
   const [matrix, setMatrix] = useState(
     Array.from({ length: 6 }, () => Array(7).fill(0))
   );
@@ -118,7 +123,8 @@ function App() {
   return (
     <div className="App">
       <p>Connect 4</p>
-      {matrix.map((row, rowIndex) => (
+      <div className='board'>
+        {matrix.map((row, rowIndex) => (
         <div key={rowIndex} className='row'>
           {row.map((cell, colIndex) => (
             <div
@@ -126,12 +132,12 @@ function App() {
               onClick={() => updateMatrixCell(getNextZeroRow(colIndex), colIndex, turn % 2 === 0 ? 1 : -1)}
               className='row-content'
               style={{
-                backgroundColor: cell === 1 ? 'red' : cell === -1 ? 'yellow' : 'white',
+                backgroundColor: cell === 1 ? cellColorRed : cell === -1 ? cellColorYellow : cellColorEmpty,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
-                color: cell === 1 ? 'red' : cell === -1 ? 'yellow' : 'white'
+                color: cell === 1 ? cellColorRed : cell === -1 ? cellColorYellow : cellColorEmpty
               }}
             >
               {cell}
@@ -139,9 +145,13 @@ function App() {
           ))}
         </div>
       ))}
+      </div>
+      
       <div style={{
         height: 50,
-        width: 100,
+        width: '50px',
+        borderRadius: '50%',
+        border: '1px solid black',
         backgroundColor: turn % 2 === 0 ? 'red' : 'yellow'
       }}></div>
       <button onClick={resetGame}>Reset Game</button>
